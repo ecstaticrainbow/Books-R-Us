@@ -79,10 +79,13 @@ public class MainActivity extends AppCompatActivity implements homeFragment.OnFr
             switch (position) {
                 case 0:
                     navigation.setSelectedItemId(R.id.navigation_home);
+                    break;
                 case 1:
                     navigation.setSelectedItemId(R.id.navigation_books);
+                    break;
                 case 2:
                     navigation.setSelectedItemId(R.id.navigation_search);
+                    break;
             }
 
         }
