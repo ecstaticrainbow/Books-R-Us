@@ -6,6 +6,7 @@
     <string name="title_dashboard">Books</string>
     <string name="title_notifications">Search</string>
 
-    <string name="hello_blank_fragment">Hello I\'m a blank fragment</string>
+    <!--Home Fragment-->
+    <string name="home_fragment_heading">Home</string>
 
 </resources>
