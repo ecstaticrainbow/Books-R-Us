@@ -22,13 +22,13 @@ public class SimpleFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return homeFragment.newInstance("home","test");
+            return homeFragment.newInstance();
         } else if (position == 1){
             return booksFragment.newInstance("books","test");
         } else if (position == 2){
             return searchFragment.newInstance("search","test");
         } else {
-            return homeFragment.newInstance("home","test");
+            return homeFragment.newInstance();
         }
     }
 

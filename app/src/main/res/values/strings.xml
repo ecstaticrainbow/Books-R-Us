@@ -9,4 +9,6 @@
     <!--Home Fragment-->
     <string name="home_fragment_heading">Home</string>
 
+    <!--Search Fragment-->
+    <string name="search_fragment_heading">Search Fragment</string>
 </resources>

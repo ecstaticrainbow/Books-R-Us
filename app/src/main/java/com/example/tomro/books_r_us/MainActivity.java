@@ -13,6 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,28 +25,41 @@ import android.widget.Toast;
 
 import java.io.Console;
 
-public class MainActivity extends AppCompatActivity implements homeFragment.OnFragmentInteractionListener, booksFragment.OnFragmentInteractionListener, searchFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements homeFragment.OnFragmentInteractionListener, booksFragment.OnFragmentInteractionListener, searchFragment.OnFragmentInteractionListener{
 
-    ViewPager mViewPager;
-    BottomNavigationView navigation;
+    private ViewPager mViewPager;
+    private BottomNavigationView navigation;
+    private ActionBar actionBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        actionBar = getSupportActionBar();
+        actionBar.setSubtitle("Home");
+
+        setupViewPager();
+
+
+    }
+
+    private void setupViewPager() {
         mViewPager = findViewById(R.id.pager);
 
         SimpleFragmentPagerAdapter fragmentPagerAdapter = new SimpleFragmentPagerAdapter(this, getSupportFragmentManager());
         mViewPager.setAdapter(fragmentPagerAdapter);
 
-
+        mViewPager.setOffscreenPageLimit(2);
 
 
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
     }
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -53,12 +68,15 @@ public class MainActivity extends AppCompatActivity implements homeFragment.OnFr
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mViewPager.setCurrentItem(0);
+                    actionBar.setSubtitle("Home");
                     return true;
                 case R.id.navigation_books:
                     mViewPager.setCurrentItem(1);
+                    actionBar.setSubtitle("Books");
                     return true;
                 case R.id.navigation_search:
                     mViewPager.setCurrentItem(2);
+                    actionBar.setSubtitle("Search");
                     return true;
             }
             return false;
@@ -79,12 +97,15 @@ public class MainActivity extends AppCompatActivity implements homeFragment.OnFr
             switch (position) {
                 case 0:
                     navigation.setSelectedItemId(R.id.navigation_home);
+                    actionBar.setSubtitle("Home");
                     break;
                 case 1:
                     navigation.setSelectedItemId(R.id.navigation_books);
+                    actionBar.setSubtitle("Books");
                     break;
                 case 2:
                     navigation.setSelectedItemId(R.id.navigation_search);
+                    actionBar.setSubtitle("Search");
                     break;
             }
 
@@ -98,8 +119,13 @@ public class MainActivity extends AppCompatActivity implements homeFragment.OnFr
         }
     };
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
+
+    public void onButtonPressed(int Id) {
+        Log.d("test",Integer.toString(Id));
+    }
+
+
+    public void onFragmentInteraction(){
 
     }
 }
