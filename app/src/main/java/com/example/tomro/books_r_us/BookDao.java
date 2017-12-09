@@ -13,6 +13,9 @@ public interface BookDao {
     @Query("SELECT * FROM Book")
     List<Book> getAll();
 
+    @Query("SELECT * FROM Book ORDER BY uid DESC LIMIT 4")
+    List<Book> getLatest();
+
     @Query("SELECT * FROM Book WHERE uid IN (:userIds)")
     List<Book> loadAllByIds(int[] userIds);
 

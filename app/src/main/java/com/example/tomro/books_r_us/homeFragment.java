@@ -112,7 +112,7 @@ public class homeFragment extends Fragment {
         protected List<Book> doInBackground(Void ... params) {
 
 
-            List<Book> bookList = mBookDao.getAll();
+            List<Book> bookList = mBookDao.getLatest();
 
             return bookList;
         }
