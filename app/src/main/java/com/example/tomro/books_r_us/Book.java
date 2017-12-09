@@ -1,20 +1,44 @@
 package com.example.tomro.books_r_us;
 
+import android.arch.persistence.room.*;
+
 /**
  * Created by tomro on 08/12/2017.
  */
-
+@Entity
 public class Book {
-    String bookTitle;
-    String bookAuthor;
-    String bookDesc;
-    String bookPrice;
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
 
-    Book(String bookTitle, String bookAuthor, String bookDesc, String bookPrice){
+    @ColumnInfo(name = "bookTitle")
+    private String bookTitle;
+
+    @ColumnInfo(name = "bookAuthor")
+    private String bookAuthor;
+
+    @ColumnInfo(name = "bookDesc")
+    private String bookDesc;
+
+    @ColumnInfo(name = "bookPrice")
+    private double bookPrice;
+
+    @ColumnInfo(name = "bookImageUrl")
+    private String bookImageUrl;
+
+    Book(String bookTitle, String bookAuthor, String bookDesc, double bookPrice, String bookImageUrl){
         this.bookTitle = bookTitle;
         this.bookAuthor = bookAuthor;
         this.bookDesc = bookDesc;
         this.bookPrice = bookPrice;
+        this.bookImageUrl = bookImageUrl;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getBookTitle() {
@@ -41,11 +65,19 @@ public class Book {
         this.bookDesc = bookDesc;
     }
 
-    public String getBookPrice() {
+    public double getBookPrice() {
         return bookPrice;
     }
 
-    public void setBookPrice(String bookPrice) {
+    public void setBookPrice(double bookPrice) {
         this.bookPrice = bookPrice;
+    }
+
+    public String getBookImageUrl() {
+        return bookImageUrl;
+    }
+
+    public void setBookImageUrl(String bookImageUrl) {
+        this.bookImageUrl = bookImageUrl;
     }
 }

@@ -1,12 +1,15 @@
 package com.example.tomro.books_r_us;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +31,13 @@ public class homeFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
-    private Button button;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Book> mDataSet = new ArrayList<>();
+    private BookDao mBookDao;
+    private AppDatabase mDb;
+
 
     public homeFragment() {
         // Required empty public constructor
@@ -62,7 +67,10 @@ public class homeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        setupDb();
         setupRecycler(view);
+
+
         return view;
     }
 
@@ -80,19 +88,50 @@ public class homeFragment extends Fragment {
         mRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         // specify an adapter (see also next example)
 
-        mDataSet.add(new Book("Test","Test", "Test", "Test"));
-        mDataSet.add(new Book("Test2","Test", "Test", "Test"));
-        mDataSet.add(new Book("Test3","Test", "Test", "Test"));
-        mDataSet.add(new Book("Test4","Test", "Test", "Test"));
-        mAdapter = new CardAdapter(mDataSet);
+        //mDataSet.add(new Book("Test","Test", "Test", 3.99, "Test"));
+        //mDataSet.add(new Book("Test2","Test", "Test", 3.99, "Test"));
+        //mDataSet.add(new Book("Test3","Test", "Test", 3.99, "Test"));
+        //mDataSet.add(new Book("Test4","Test", "Test", 3.99, "Test"));
+
+
+    }
+
+    private void addAdapter(){
+        mAdapter = new CardAdapter(mDataSet, buttonListener);
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    private void setupDb() {
+        mDb = Room.databaseBuilder(getContext(), AppDatabase.class, "database-name").fallbackToDestructiveMigration().build();
+        mBookDao = mDb.bookDao();
+
+        new getDb().execute();
+    }
+
+    private class getDb extends AsyncTask<Void, Void, List<Book>> {
+        protected List<Book> doInBackground(Void ... params) {
+
+
+            List<Book> bookList = mBookDao.getAll();
+
+            return bookList;
+        }
+
+        protected void onPostExecute(List<Book> result) {
+            for (Book book: result) {
+                mDataSet.add(book);
+
+            }
+            addAdapter();
+        }
+    }
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed() {
+    public void onButtonPressed(int Id) {
         if (mListener != null) {
-            int Id = button.getId();
             mListener.onButtonPressed(Id);
         }
     }
@@ -126,14 +165,14 @@ public class homeFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onButtonPressed(int Id);
+        void onButtonPressed(int tag);
     }
 
     private Button.OnClickListener buttonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-            onButtonPressed();
+            
+            onButtonPressed((Integer)v.getTag());
         }
     };
 }

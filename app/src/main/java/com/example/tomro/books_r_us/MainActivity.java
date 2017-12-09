@@ -1,6 +1,9 @@
 package com.example.tomro.books_r_us;
 
+import android.app.IntentService;
+import android.arch.persistence.room.Room;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -24,12 +27,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Console;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements homeFragment.OnFragmentInteractionListener, booksFragment.OnFragmentInteractionListener, searchFragment.OnFragmentInteractionListener{
 
     private ViewPager mViewPager;
     private BottomNavigationView navigation;
     private ActionBar actionBar;
+
 
 
     @Override
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements homeFragment.OnFr
         actionBar.setSubtitle("Home");
 
         setupViewPager();
+
+
 
 
     }
@@ -58,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements homeFragment.OnFr
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         mViewPager.addOnPageChangeListener(mOnPageChangeListener);
     }
+
 
 
 
@@ -120,12 +128,15 @@ public class MainActivity extends AppCompatActivity implements homeFragment.OnFr
     };
 
 
-    public void onButtonPressed(int Id) {
-        Log.d("test",Integer.toString(Id));
+    public void onButtonPressed(int tag) {
+        Log.d("test",Integer.toString(tag));
+        Toast.makeText(getApplicationContext(), Integer.toString(tag),Toast.LENGTH_SHORT).show();
     }
 
 
     public void onFragmentInteraction(){
 
     }
+
 }
+
