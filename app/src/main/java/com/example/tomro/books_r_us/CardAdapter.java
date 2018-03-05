@@ -1,5 +1,6 @@
 package com.example.tomro.books_r_us;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -14,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -27,6 +30,7 @@ import java.util.List;
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private List<Book> mDataset;
     private View.OnClickListener eventListener;
+    private Context context;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -41,9 +45,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public CardAdapter(List<Book> myDataset, View.OnClickListener eventListener) {
+    public CardAdapter(List<Book> myDataset, View.OnClickListener eventListener, Context context) {
         this.mDataset = myDataset;
         this.eventListener = eventListener;
+        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -68,7 +73,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         bookTitle.setText(mDataset.get(position).getBookTitle());
 
         ImageView bookImage = holder.mCardView.findViewById(R.id.bookImage);
-        new ImageLoadTask("https://images2.onionstatic.com/clickhole/3447/6/original/600.jpg", bookImage).execute();
+        Glide.with(context).load(mDataset.get(position).getBookImageUrl()).into(bookImage);
 
         ImageButton button = holder.mCardView.findViewById(R.id.btnSeeMore);
         button.setTag(mDataset.get(position).getUid());
@@ -77,40 +82,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     }
 
-    public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
-
-        private String url;
-        private ImageView imageView;
-
-        public ImageLoadTask(String url, ImageView imageView) {
-            this.url = url;
-            this.imageView = imageView;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... params) {
-            try {
-                URL urlConnection = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) urlConnection
-                        .openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            imageView.setImageBitmap(result);
-        }
-
-    }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

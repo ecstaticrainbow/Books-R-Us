@@ -29,7 +29,7 @@ import android.widget.Toast;
 import java.io.Console;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements homeFragment.OnFragmentInteractionListener, booksFragment.OnFragmentInteractionListener, searchFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements searchFragment.OnFragmentInteractionListener{
 
     private ViewPager mViewPager;
     private BottomNavigationView navigation;

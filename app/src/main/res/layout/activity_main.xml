@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.tomro.books_r_us.MainActivity">
 
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"

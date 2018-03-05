@@ -19,11 +19,14 @@ public interface BookDao {
     @Query("SELECT * FROM Book WHERE uid IN (:userIds)")
     List<Book> loadAllByIds(int[] userIds);
 
-    @Query("SELECT * FROM Book WHERE bookTitle LIKE :title LIMIT 1")
-    Book findByName(String title);
+    @Query("SELECT * FROM Book WHERE uid LIKE :ID LIMIT 1")
+    Book findByID(int ID);
 
     @Insert
-    void insertAll(Book... books);
+    void insertAll(List<Book> books);
+
+    @Insert
+    void insertOne(Book book);
 
     @Delete
     void delete(Book book);

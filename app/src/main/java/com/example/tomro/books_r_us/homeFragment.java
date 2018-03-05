@@ -2,41 +2,33 @@ package com.example.tomro.books_r_us;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link homeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link homeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class homeFragment extends Fragment {
 
 
-    private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Book> mDataSet = new ArrayList<>();
     private BookDao mBookDao;
     private AppDatabase mDb;
+    public static final String BookID = "com.example.myfirstapp.BookID";
 
 
     public homeFragment() {
@@ -92,17 +84,16 @@ public class homeFragment extends Fragment {
         //mDataSet.add(new Book("Test2","Test", "Test", 3.99, "Test"));
         //mDataSet.add(new Book("Test3","Test", "Test", 3.99, "Test"));
         //mDataSet.add(new Book("Test4","Test", "Test", 3.99, "Test"));
-
-
+        //new insertBook().execute();
     }
 
     private void addAdapter(){
-        mAdapter = new CardAdapter(mDataSet, buttonListener);
+        mAdapter = new CardAdapter(mDataSet, buttonListener, getContext());
         mRecyclerView.setAdapter(mAdapter);
     }
 
     private void setupDb() {
-        mDb = Room.databaseBuilder(getContext(), AppDatabase.class, "database-name").fallbackToDestructiveMigration().build();
+        mDb = Room.databaseBuilder(getContext(), AppDatabase.class, "Books-R-Us").fallbackToDestructiveMigration().build();
         mBookDao = mDb.bookDao();
 
         new getDb().execute();
@@ -126,52 +117,37 @@ public class homeFragment extends Fragment {
         }
     }
 
-
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(int Id) {
-        if (mListener != null) {
-            mListener.onButtonPressed(Id);
+    private class insertBook extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mBookDao.insertOne(new Book("Great Expectations","Charles Dickens", "Considered by many to be Dickens' finest novel, Great Expectations traces the growth of the book's narrator, Philip Pirrip (Pip), from a boy of shallow dreams to a man with depth of character. From its famous dramatic opening on the bleak Kentish marshes, the story abounds with some of Dickens' most memorable characters.", 3.99, "https://cdn2.penguin.com.au/covers/original/9780451531186.jpg"));
+            return null;
         }
+    }
+
+    public void onButtonPressed(int tag) {
+        Log.d("test",Integer.toString(tag));
+        Toast.makeText(getContext(), Integer.toString(tag),Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(getContext(), BookActivity.class);
+        intent.putExtra("BookID", Integer.toString(tag));
+        startActivity(intent);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onButtonPressed(int tag);
     }
 
     private Button.OnClickListener buttonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            
+
             onButtonPressed((Integer)v.getTag());
         }
     };
