@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,9 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -49,16 +53,16 @@ public class BookActivity extends AppCompatActivity {
 
         setupDb();
 
-        changeBgColour();
+
 
 
     }
 
-    public void changeBgColour() {
+    public void changeBgColour(final Book book) {
         final ImageView bookCover = findViewById(R.id.bookCover);
         Glide.with(this)
                 .asBitmap()
-                .load("https://cdn2.penguin.com.au/covers/original/9780451531186.jpg")
+                .load(book.getBookImageUrl())
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -67,9 +71,17 @@ public class BookActivity extends AppCompatActivity {
 
                         ConstraintLayout constraintLayout = findViewById(R.id.InfoContainer);
                         TextView price = findViewById(R.id.txtPrice);
+                        TextView desc = findViewById(R.id.txtDesc);
 
-                        int color = palette.getLightVibrantColor(0);
-                        int statuscolor = palette.getVibrantColor(0);
+                        Palette.Swatch vibrantSwatch = palette.getLightVibrantSwatch();
+                        //int color = palette.getLightVibrantColor(0);
+                        int color = vibrantSwatch.getRgb();
+
+                        float[] hsv = new float[3];
+                        Color.colorToHSV(color, hsv);
+                        hsv[2] *= 0.8f;
+                        int statuscolor = Color.HSVToColor(hsv);
+                        //int statuscolor = palette.getVibrantColor(0);
 
                         constraintLayout.setBackgroundColor(color);
                         price.setBackgroundColor(color);
@@ -81,6 +93,21 @@ public class BookActivity extends AppCompatActivity {
                             window.setStatusBarColor(statuscolor);
                             window.setNavigationBarColor(statuscolor);
                         }
+
+                        Spannable title = new SpannableString(book.getBookTitle());
+                        title.setSpan(new ForegroundColorSpan(vibrantSwatch.getTitleTextColor()), 0, title.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        getSupportActionBar().setTitle(title);
+
+                        Spannable subtitle = new SpannableString(book.getBookAuthor());
+                        subtitle.setSpan(new ForegroundColorSpan(vibrantSwatch.getTitleTextColor()), 0, subtitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                        getSupportActionBar().setSubtitle(subtitle);
+
+                        final Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
+                        upArrow.setColorFilter(vibrantSwatch.getTitleTextColor(), PorterDuff.Mode.MULTIPLY);
+                        getSupportActionBar().setHomeAsUpIndicator(upArrow);
+
+                        price.setTextColor(vibrantSwatch.getBodyTextColor());
+                        desc.setTextColor(vibrantSwatch.getBodyTextColor());
 
                     }
                 });
@@ -102,8 +129,8 @@ public class BookActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(Book book) {
-            getSupportActionBar().setTitle(book.getBookTitle());
-            getSupportActionBar().setSubtitle(book.getBookAuthor());
+
+
 
             TextView price = findViewById(R.id.txtPrice);
             TextView desc = findViewById(R.id.txtDesc);
@@ -111,6 +138,7 @@ public class BookActivity extends AppCompatActivity {
             price.setText("£" + String.valueOf(book.getBookPrice()));
             desc.setText(book.getBookDesc());
 
+            changeBgColour(book);
 
         }
 
