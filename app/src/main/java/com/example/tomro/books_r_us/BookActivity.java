@@ -12,12 +12,15 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.method.ScrollingMovementMethod;
 import android.text.style.ForegroundColorSpan;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -56,7 +59,21 @@ public class BookActivity extends AppCompatActivity {
 
 
 
+
+
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void changeBgColour(final Book book) {
         final ImageView bookCover = findViewById(R.id.bookCover);
@@ -84,7 +101,10 @@ public class BookActivity extends AppCompatActivity {
                         //int statuscolor = palette.getVibrantColor(0);
 
                         constraintLayout.setBackgroundColor(color);
-                        price.setBackgroundColor(color);
+
+                        Drawable pricebg = price.getBackground();
+                        pricebg.setColorFilter(color,PorterDuff.Mode.MULTIPLY);
+                        price.setBackground(pricebg);
 
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -108,6 +128,7 @@ public class BookActivity extends AppCompatActivity {
 
                         price.setTextColor(vibrantSwatch.getBodyTextColor());
                         desc.setTextColor(vibrantSwatch.getBodyTextColor());
+                        desc.setMovementMethod(new ScrollingMovementMethod());
 
                     }
                 });

@@ -126,8 +126,6 @@ public class homeFragment extends Fragment {
     }
 
     public void onButtonPressed(int tag) {
-        Log.d("test",Integer.toString(tag));
-        Toast.makeText(getContext(), Integer.toString(tag),Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(getContext(), BookActivity.class);
         intent.putExtra("BookID", Integer.toString(tag));

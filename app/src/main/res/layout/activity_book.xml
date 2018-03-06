@@ -15,8 +15,7 @@
         app:layout_constraintBottom_toTopOf="@+id/txtPrice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtPrice"
@@ -28,7 +27,7 @@
         android:background="@drawable/rounded_corners"
         android:padding="8dp"
         android:text="TextView"
-        android:textSize="17sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/InfoContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +53,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="24dp"
             android:lineSpacingExtra="4sp"
+            android:scrollbars="vertical"
             android:text="TextView"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
