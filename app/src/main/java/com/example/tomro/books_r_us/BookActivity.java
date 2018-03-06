@@ -79,6 +79,7 @@ public class BookActivity extends AppCompatActivity {
                             Window window = getWindow();
                             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                             window.setStatusBarColor(statuscolor);
+                            window.setNavigationBarColor(statuscolor);
                         }
 
                     }

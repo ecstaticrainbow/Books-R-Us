@@ -120,7 +120,7 @@ public class homeFragment extends Fragment {
     private class insertBook extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
-            mBookDao.insertOne(new Book("Great Expectations","Charles Dickens", "Considered by many to be Dickens' finest novel, Great Expectations traces the growth of the book's narrator, Philip Pirrip (Pip), from a boy of shallow dreams to a man with depth of character. From its famous dramatic opening on the bleak Kentish marshes, the story abounds with some of Dickens' most memorable characters.", 3.99, "https://cdn2.penguin.com.au/covers/original/9780451531186.jpg"));
+            mBookDao.insertOne(new Book("The Hobbit","J.R.R Tolkien", "Considered by many to be Dickens' finest novel, Great Expectations traces the growth of the book's narrator, Philip Pirrip (Pip), from a boy of shallow dreams to a man with depth of character. From its famous dramatic opening on the bleak Kentish marshes, the story abounds with some of Dickens' most memorable characters.", 5.99, "https://cdn.pastemagazine.com/www/system/images/photo_albums/hobbit-book-covers/large/photo_5653_0-7.jpg?1384968217"));
             return null;
         }
     }

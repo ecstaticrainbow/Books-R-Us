@@ -75,9 +75,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         ImageView bookImage = holder.mCardView.findViewById(R.id.bookImage);
         Glide.with(context).load(mDataset.get(position).getBookImageUrl()).into(bookImage);
 
-        ImageButton button = holder.mCardView.findViewById(R.id.btnSeeMore);
-        button.setTag(mDataset.get(position).getUid());
-        button.setOnClickListener(eventListener);
+        //ImageButton button = holder.mCardView.findViewById(R.id.btnSeeMore);
+        //button.setTag(mDataset.get(position).getUid());
+        holder.mCardView.setTag(mDataset.get(position).getUid());
+        holder.mCardView.setOnClickListener(eventListener);
+        //button.setOnClickListener(eventListener);
 
 
     }
