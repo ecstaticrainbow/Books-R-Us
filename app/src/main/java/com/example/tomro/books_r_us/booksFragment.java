@@ -95,6 +95,8 @@ public class booksFragment extends Fragment {
         }
     }
 
+
+
     private void addAdapter(){
         mAdapter = new CardAdapter(mDataSet, buttonListener, getContext());
         mRecyclerView.setAdapter(mAdapter);
@@ -120,7 +122,19 @@ public class booksFragment extends Fragment {
     };
 
     public void onButtonPressed(int tag) {
-        Log.d("test",Integer.toString(tag));
-        Toast.makeText(getContext(), Integer.toString(tag),Toast.LENGTH_SHORT).show();
+        //new deleteBook().execute(tag);
     }
+
+    private class deleteBook extends AsyncTask<Integer, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Integer... ints) {
+            for (int tag: ints) {
+                mBookDao.deleteByID(tag);
+                Log.e("test", "book deleted");
+            }
+            return null;
+        }
+    }
+
 }

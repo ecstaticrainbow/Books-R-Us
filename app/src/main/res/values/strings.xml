@@ -11,4 +11,6 @@
 
     <!--Search Fragment-->
     <string name="search_fragment_heading">Search Fragment</string>
+
+    <string name="click_here">Tap here to pick image</string>
 </resources>

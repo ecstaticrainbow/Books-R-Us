@@ -3,7 +3,9 @@ package com.example.tomro.books_r_us;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -72,11 +74,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         TextView bookTitle = holder.mCardView.findViewById(R.id.bookTitle);
         bookTitle.setText(mDataset.get(position).getBookTitle());
 
+        TextView bookAuthor = holder.mCardView.findViewById(R.id.bookAuthor);
+        bookAuthor.setText(mDataset.get(position).getBookAuthor());
+
         ImageView bookImage = holder.mCardView.findViewById(R.id.bookImage);
+
         Glide.with(context).load(mDataset.get(position).getBookImageUrl()).into(bookImage);
 
-        //ImageButton button = holder.mCardView.findViewById(R.id.btnSeeMore);
-        //button.setTag(mDataset.get(position).getUid());
         holder.mCardView.setTag(mDataset.get(position).getUid());
         holder.mCardView.setOnClickListener(eventListener);
         //button.setOnClickListener(eventListener);

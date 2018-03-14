@@ -156,7 +156,8 @@ public class BookActivity extends AppCompatActivity {
             TextView price = findViewById(R.id.txtPrice);
             TextView desc = findViewById(R.id.txtDesc);
 
-            price.setText("£" + String.valueOf(book.getBookPrice()));
+            String pricetext = String.format("%.2f", book.getBookPrice());
+            price.setText("£" + pricetext);
             desc.setText(book.getBookDesc());
 
             changeBgColour(book);

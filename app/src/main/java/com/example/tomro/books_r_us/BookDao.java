@@ -30,4 +30,7 @@ public interface BookDao {
 
     @Delete
     void delete(Book book);
+
+    @Query("DElETE FROM Book WHERE uid LIKE :ID")
+    void deleteByID(int ID);
 }
